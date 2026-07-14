@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>티켓링크 × NHN그룹사 B2C 신사업 3안</title>
+<style>
+  :root {
+    --paper: #f7f4ec;
+    --paper-raised: #fffdf8;
+    --ink: #211d16;
+    --ink-soft: #6b6250;
+    --line: #ddd4bf;
+    --accent: #b5732a;
+    --accent-soft: #e8d9bd;
+    --accent-ink: #5c3a15;
+    --tag-a: #3d6b52;
+    --tag-a-bg: #e2ece4;
+    --tag-b: #8a4a6b;
+    --tag-b-bg: #f2e3ec;
+    --tag-c: #38617e;
+    --tag-c-bg: #e3ecf2;
+  }
+  :root[data-theme="dark"] {
+    --paper: #18140f;
+    --paper-raised: #221d16;
+    --ink: #f1ead9;
+    --ink-soft: #a99d84;
+    --line: #3c3527;
+    --accent: #e0a355;
+    --accent-soft: #3a2c17;
+    --accent-ink: #f4d9ad;
+    --tag-a: #8fd4ab;
+    --tag-a-bg: #1e2c22;
+    --tag-b: #e3a9c6;
+    --tag-b-bg: #2c1f27;
+    --tag-c: #9cc4e0;
+    --tag-c-bg: #1c2731;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #18140f;
+      --paper-raised: #221d16;
+      --ink: #f1ead9;
+      --ink-soft: #a99d84;
+      --line: #3c3527;
+      --accent: #e0a355;
+      --accent-soft: #3a2c17;
+      --accent-ink: #f4d9ad;
+      --tag-a: #8fd4ab;
+      --tag-a-bg: #1e2c22;
+      --tag-b: #e3a9c6;
+      --tag-b-bg: #2c1f27;
+      --tag-c: #9cc4e0;
+      --tag-c-bg: #1c2731;
+    }
+  }
+
+  :root {
+    --font-sans: "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    padding: clamp(20px, 4vw, 56px);
+    max-width: 980px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+  h1 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(26px, 4vw, 37px);
+    line-height: 1.35;
+    margin: 0 0 10px;
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+  .sub {
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    margin: 0 0 34px;
+    max-width: 62ch;
+  }
+
+  /* journey strip */
+  .journey {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    background: var(--paper-raised);
+  }
+  .journey > div {
+    padding: 14px 12px;
+    text-align: center;
+    border-right: 1px dashed var(--line);
+    font-size: 13px;
+    color: var(--ink-soft);
+    position: relative;
+  }
+  .journey > div:last-child { border-right: none; }
+  .journey strong {
+    display: block;
+    font-size: 14.5px;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+  .journey .hit {
+    background: var(--accent-soft);
+  }
+  .journey .hit strong { color: var(--accent-ink); }
+
+  /* ticket cards */
+  .tickets {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 44px;
+  }
+  .ticket {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticket::before {
+    content: "";
+    position: absolute;
+    left: 96px;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-left: 2px dashed var(--line);
+  }
+  .ticket .notch-top,
+  .ticket .notch-bottom {
+    content: "";
+    position: absolute;
+    left: 88px;
+    width: 16px;
+    height: 16px;
+    background: var(--paper);
+    border-radius: 50%;
+    border: 1px solid var(--line);
+  }
+  .ticket .notch-top { top: -8px; }
+  .ticket .notch-bottom { bottom: -8px; }
+
+  .stub {
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
+    background: var(--accent-soft);
+  }
+  .stub .no {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--accent-ink);
+    opacity: 0.75;
+  }
+  .stub .glyph {
+    font-size: 26px;
+    line-height: 1;
+  }
+  .stub .partner {
+    font-size: 11.5px;
+    color: var(--accent-ink);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .body-col {
+    padding: 22px 24px 20px 28px;
+  }
+  .ticket-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .ticket-title {
+    font-family: var(--font-sans);
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .tag.a { background: var(--tag-a-bg); color: var(--tag-a); }
+  .tag.b { background: var(--tag-b-bg); color: var(--tag-b); }
+  .tag.c { background: var(--tag-c-bg); color: var(--tag-c); }
+
+  .pitch {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+    max-width: 60ch;
+  }
+
+  .rows {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    row-gap: 8px;
+    column-gap: 16px;
+    font-size: 13.8px;
+  }
+  .rows dt {
+    color: var(--ink-soft);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    padding-top: 1px;
+    white-space: nowrap;
+  }
+  .rows dd { margin: 0; }
+  .rows dd b { font-weight: 700; }
+
+  /* comparison table */
+  h2 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+    padding-left: 12px;
+    border-left: 3px solid var(--accent);
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    margin-bottom: 40px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.6px;
+    background: var(--paper-raised);
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  thead th {
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    background: var(--paper);
+  }
+  tbody th {
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+  }
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+
+  .oneliners {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+  }
+  .oneliner {
+    background: var(--accent-soft);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 14px;
+    color: var(--accent-ink);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .oneliner .label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.75;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  footer {
+    margin-top: 44px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 620px) {
+    .journey { grid-template-columns: repeat(2, 1fr); }
+    .journey > div:nth-child(2) { border-right: none; }
+    .ticket { grid-template-columns: 76px 1fr; }
+    .stub .glyph { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<p class="eyebrow">사내 AI 공모전 · 티켓링크 신사업 제안</p>
+<h1>티켓 한 장, NHN 그룹사로 이어지는 세 가지 여정</h1>
+<p class="sub">예매가 끝난 순간부터 티켓링크만 아는 정보(언제·어디서·누가 보러 가는지)를 활용해, 관람 전·중·후 각 구간에 그룹사 서비스를 연결하는 B2C 아이디어 3안입니다.</p>
+
+<div class="journey">
+  <div><span>STEP 1</span><strong>예매 완료</strong></div>
+  <div class="hit"><span>STEP 2 · 가는 길</span><strong>① 티켓 트립</strong></div>
+  <div class="hit"><span>STEP 3 · 가 있는 동안</span><strong>③ 매치데이 패스</strong></div>
+  <div class="hit"><span>STEP 4 · 다녀온 후</span><strong>② 관람 아카이브</strong></div>
+</div>
+
+<div class="tickets">
+
+  <article class="ticket">
+    <div class="notch-top"></div>
+    <div class="stub">
+      <span class="no">NO. 01</span>
+      <span class="glyph">🚄</span>
+      <span class="partner">여행박사<br/>× PAYCO</span>
+    </div>
+    <div class="body-col">
+      <div class="ticket-head">
+        <h3 class="ticket-title">티켓 트립</h3>
+        <span class="tag a">무과금 · 커미션</span>
+      </div>
+      <p class="pitch">원정 티켓팅에 성공한 순간, AI가 교통·숙소·맛집을 한 장의 "여정 카드"로 즉시 제안합니다. 티켓팅 성공의 설렘이 식기 전에.</p>
+      <dl class="rows">
+        <dt>불편한 순간</dt><dd>대구 원정 티켓은 잡았는데 KTX·숙소를 앱 4개 옮겨다니며 따로 찾아야 함</dd>
+        <dt>AI가 하는 일</dt><dd>경기 시작·종료 시각, 좌석, 예산을 읽어 이동+숙박 조합 자동 설계, 우천취소 시 재플래닝</dd>
+        <dt>돈의 흐름</dt><dd><b>유저 무과금</b> — 여행상품 판매 커미션. 티켓 3만 원 손님이 20~30만 원 손님으로 확장</dd>
+        <dt>차별점</dt><dd>"네이버는 내가 티켓 잡은 걸 모른다 — 티켓링크는 안다"는 타이밍 독점</dd>
+      </dl>
+    </div>
+    <div class="notch-bottom"></div>
+  </article>
+
+  <article class="ticket">
+    <div class="notch-top"></div>
+    <div class="stub">
+      <span class="no">NO. 02</span>
+      <span class="glyph">🎧</span>
+      <span class="partner">벅스 · 코미코<br/>× 굿즈</span>
+    </div>
+    <div class="body-col">
+      <div class="ticket-head">
+        <h3 class="ticket-title">관람 아카이브</h3>
+        <span class="tag b">굿즈 · 크로스셀</span>
+      </div>
+      <p class="pitch">예매 기록으로 내 관람 이력이 자동으로 쌓이는 디지털 다이어리. 시즌 말엔 "직관판 Spotify Wrapped" 리캡을 만들어 줍니다.</p>
+      <dl class="rows">
+        <dt>불편한 순간</dt><dd>공연 덕후들이 여전히 종이 티켓을 오려 붙이고 셋리스트를 손으로 적는 수고</dd>
+        <dt>AI가 하는 일</dt><dd>공연 종료 즉시 셋리스트를 벅스 플레이리스트로, 시즌 말 "당신이 본 12경기, 승률 67%" 리캡 생성</dd>
+        <dt>돈의 흐름</dt><dd>앱 무료 + <b>포토북·티켓 액자 굿즈 판매(2~5만원)</b>, 벅스·코미코 크로스셀 수익 배분</dd>
+        <dt>차별점</dt><dd>"진짜 갔다"를 증명할 수 있는 건 예매 원본을 가진 티켓링크뿐</dd>
+      </dl>
+    </div>
+    <div class="notch-bottom"></div>
+  </article>
+
+  <article class="ticket">
+    <div class="notch-top"></div>
+    <div class="stub">
+      <span class="no">NO. 03</span>
+      <span class="glyph">🏟️</span>
+      <span class="partner">PAYCO<br/>× NHN커머스</span>
+    </div>
+    <div class="body-col">
+      <div class="ticket-head">
+        <h3 class="ticket-title">매치데이 패스</h3>
+        <span class="tag c">거래 수수료</span>
+      </div>
+      <p class="pitch">예매 완료 시 발급되는 당일 패스로 F&B·주차·굿즈를 미리 준비. 줄 서는 시간을 응원하는 시간으로 돌려줍니다.</p>
+      <dl class="rows">
+        <dt>불편한 순간</dt><dd>매점 줄 30분, 주차 뺑뺑이, 굿즈샵 품절 — 경기 절반을 줄에서 보냄</dd>
+        <dt>AI가 하는 일</dt><dd>좌석 위치·입장 시간 기반 "3루 응원석이면 이 게이트, 이 메뉴" 추천, 매점 혼잡 분산 예측</dd>
+        <dt>돈의 흐름</dt><dd>유저 무과금 — <b>매점·구단·가맹점의 거래액(GMV) 기반 수수료</b></dd>
+        <dt>차별점</dt><dd>페인포인트가 가장 눈에 보여 심사위원 앞 시연·데모에 가장 유리</dd>
+      </dl>
+    </div>
+    <div class="notch-bottom"></div>
+  </article>
+
+</div>
+
+<h2>한눈에 비교</h2>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th></th><th>① 티켓 트립</th><th>② 관람 아카이브</th><th>③ 매치데이 패스</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>파트너 그룹사</th><td>여행박사 + PAYCO</td><td>벅스 + 코미코</td><td>PAYCO + NHN커머스</td></tr>
+      <tr><th>과금 방식</th><td>여행상품 커미션 (유저 무과금)</td><td>굿즈 직접과금 + 크로스셀</td><td>가맹점·구단 거래 수수료</td></tr>
+      <tr><th>강점</th><td>객단가 5~10배 증폭, 타이밍 독점 논리</td><td>팬 락인, 감성적 호소력</td><td>페인포인트 명확, 데모 최적</td></tr>
+      <tr><th>약점</th><td>원정·지방 관람객 한정 시장</td><td>수익화 경로 상대적으로 약함</td><td>구장·매점 오프라인 협상 필요</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>발표 한 줄</h2>
+<div class="oneliners">
+  <div class="oneliner"><span class="label">① 티켓 트립</span>티켓팅 성공의 설렘이 식기 전에, 티켓 한 장을 여행 하나로 키웁니다.</div>
+  <div class="oneliner"><span class="label">② 관람 아카이브</span>당신이 진짜 그 자리에 있었다는 걸 증명할 수 있는 건 티켓링크뿐입니다.</div>
+  <div class="oneliner"><span class="label">③ 매치데이 패스</span>경기장에서 줄 서는 시간을 응원하는 시간으로 돌려드립니다.</div>
+</div>
+
+<footer>
+  세 안 모두 "예매 완료 순간, 티켓링크만 아는 정보로 다음 행동을 돕는다"는 같은 원리에서 출발 · BMad 파티모드 라운드테이블(Mary·John·Sally) 종합 · 2026-07-14
+</footer>
+
+</body>
+</html>
